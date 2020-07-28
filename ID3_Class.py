@@ -157,7 +157,7 @@ class ID3:
 
         # loops through all the counts for each variant
         for idx, w_var_counts in enumerate(variant_list):
-            wo_var_counts = { k : subset.get(k, 0) - w_var_counts.get(k, 0) for k in subset.keys() + w_var_counts.keys() }
+            wo_var_counts = { k : subset.get(k, 0) - w_var_counts.get(k, 0) for k in list(subset.keys()) + list(w_var_counts.keys() )}
 
             # calculates info gain
             info_gain = ID3.entropy_by_count(subset) - ( sum(wo_var_counts.values()) / total_count * ID3.entropy_by_count(wo_var_counts) + sum(w_var_counts.values()) / total_count * ID3.entropy_by_count(w_var_counts) )
@@ -209,7 +209,7 @@ class ID3:
 
 if __name__ == "__main__":
     id3_alg = ID3('config.json', local=True)
-    print id3_alg.api.variant_name_list
+    print(id3_alg.api.variant_name_list)
     id3_alg.print_tree('udo1')
     #print id3_alg.api.ancestry_list
     #print id3_alg.api.variant_name_list

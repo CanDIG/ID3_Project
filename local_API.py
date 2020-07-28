@@ -63,7 +63,8 @@ class LOCAL_API:
         variant_list = []
         for var_range in self.config['variant_ranges']:
             vcf_path = self.config['chr_paths'][str(var_range['chr'])]
-            vcf_reader = vcf.Reader(open(str(vcf_path), 'r'))
+            print(vcf_path)
+            vcf_reader = vcf.Reader(open(str(vcf_path), 'rb'))
             variants = vcf_reader.fetch(int(var_range['chr']), int(var_range['start']), int(var_range['end']))
             variant_list.extend([variant for variant in variants])
         return variant_list
@@ -226,7 +227,7 @@ class LOCAL_API:
             # check if split_var is null
             if split_var:
                 f_var_idx = self.variant_name_list.index(split_var)
-                if variants[f_var_idx] is 1:
+                if variants[f_var_idx] == 1:
                     w_variant_dict[popu] += 1
                 else:
                     wo_variant_dict[popu] += 1
@@ -265,7 +266,7 @@ class LOCAL_API:
             popu = self.popu_list[idx]
             # find counts of variants
             for idx2, variant in enumerate(variants):
-                if variant is 1:
+                if variant == 1:
                     w_variant_list[idx2][popu] += 1
 
         return w_variant_list
@@ -291,13 +292,13 @@ class LOCAL_API:
         for variants in (self.variant_list):
             count = 0
             for idx, variant in enumerate(variants):
-                if variant is 1:
+                if variant == 1:
                     my_dict[self.variant_name_list[idx]] = my_dict.get(self.variant_name_list[idx], 0) + 1
         return my_dict
 
 if __name__ == "__main__":
     api = LOCAL_API('variant_ranges.json')
-    print api.variant_name_list
+    print(api.variant_name_list)
 
 
 
