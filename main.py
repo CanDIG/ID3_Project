@@ -1,7 +1,15 @@
 from ID3_Class import ID3
+import argparse
 
-# Creates ID3 object with a filepath to the config.json
-id3_obj = ID3('config.json', local=True)
+parser = argparse.ArgumentParser()
+parser.add_argument('--config_file', help='Path to the config file that contains variant ranges in JSON format',
+                    default='config.json')
+parser.add_argument('--use_server_vcf_files', action='store_true', default=False,
+                    help='Query VCF files from the server')
+args = parser.parse_args()
+print(not args.use_server_vcf_files)
+# Creates ID3 object with a path to the config file
+id3_obj = ID3(args.config_file, not args.use_server_vcf_files)
 
 # prints the ID3 tree as `tree.png`
 id3_obj.print_tree('tree')
