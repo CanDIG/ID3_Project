@@ -1,4 +1,3 @@
-from __future__ import division
 from ID3_Class import ID3
 from local_API import LOCAL_API
 from ga4gh_API import GA4GH_API

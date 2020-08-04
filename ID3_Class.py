@@ -1,4 +1,3 @@
-from __future__ import division
 import math
 from anytree import Node, RenderTree
 from anytree.exporter import DotExporter

@@ -7,7 +7,7 @@ parser.add_argument('--config_file', help='Path to the config file that contains
 parser.add_argument('--use_server_vcf_files', action='store_true', default=False,
                     help='Query VCF files from the server')
 args = parser.parse_args()
-print(not args.use_server_vcf_files)
+
 # Creates ID3 object with a path to the config file
 id3_obj = ID3(args.config_file, not args.use_server_vcf_files)
 
