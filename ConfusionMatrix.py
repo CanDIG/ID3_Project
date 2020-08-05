@@ -139,12 +139,13 @@ class ConfusionMatrix(ID3):
 
     def print_matrix(self):
         for row in self.conf_matrix:
-            print row
+            print(row)
+
 
 if __name__ == "__main__":
     c = ConfusionMatrix()
     c.print_matrix()
-    print c.accuracy()
-    print c.prevalance('ESN')
+    print(c.accuracy())
+    print(c.prevalance('ESN'))
 
 
