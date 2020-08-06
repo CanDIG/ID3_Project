@@ -1,9 +1,9 @@
 import math
 from anytree import Node
 from anytree.exporter import DotExporter
-from src.id3_variants_training.local_API import LOCAL_API
-from src.id3_variants_training.ga4gh_API import GA4GH_API
-from src.id3_variants_training.ID3_Node import ID3_Node
+from .local_API import LOCAL_API
+from .ga4gh_API import GA4GH_API
+from .ID3_Node import ID3_Node
 
 class ID3:
 

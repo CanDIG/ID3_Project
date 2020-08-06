@@ -1,6 +1,6 @@
-from src.id3_variants_training.ID3_Class import ID3
-from src.id3_variants_training.local_API import LOCAL_API
-from src.id3_variants_training.ID3_Node import ID3_Node
+from .ID3_Class import ID3
+from .local_API import LOCAL_API
+from .ID3_Node import ID3_Node
 
 class ConfusionMatrix(ID3):
 

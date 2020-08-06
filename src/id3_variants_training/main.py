@@ -1,4 +1,4 @@
-from src.id3_variants_training.ID3_Class import ID3
+from .ID3_Class import ID3
 import argparse
 
 parser = argparse.ArgumentParser()
