@@ -1,9 +1,13 @@
 from .ID3_Class import ID3
 import argparse
+from pkg_resources import resource_filename
+import config
+
+default_file_path = resource_filename(config.__name__, 'config.json')
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--config_file', help='Path to the config file that contains variant ranges in JSON format',
-                    default='config.json')
+                    default=default_file_path)
 parser.add_argument('--use_server_vcf_files', action='store_true', default=False,
                     help='Query VCF files from the server')
 args = parser.parse_args()
