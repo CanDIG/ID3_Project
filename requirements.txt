@@ -16,4 +16,5 @@ requests==2.21.0
 scandir==1.9.0
 scikit-learn==0.20.2
 scipy
+setuptools
 six==1.12.0
