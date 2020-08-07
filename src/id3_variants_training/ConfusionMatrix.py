@@ -2,9 +2,10 @@ from .ID3_Class import ID3
 from .local_API import LOCAL_API
 from .ID3_Node import ID3_Node
 
+
 class ConfusionMatrix(ID3):
 
-    def __init__(self, file_path='config.json'):
+    def __init__(self, file_path, local):
         '''
         Creates confusion matrix with the first index (Y) as the correct population and the
         second index (X) as the predicted population. THe order of the ancestries is dictated
@@ -14,7 +15,8 @@ class ConfusionMatrix(ID3):
         predicted is X axis
 
         Args:
-            file_path (str): Path to json file that contains the variant rangess
+            file_path (str): Path to json file that contains the variant ranges
+            local (bool): Flag to determine whether or not to read locally or from a server
 
         Attributes:
             api (API): API object that is used to interact with the virtual API
@@ -26,6 +28,7 @@ class ConfusionMatrix(ID3):
             diagonal_sum (int): sum of the diagonals within the matrix
             total (int): total sum of all values in matrix
         '''
+        super(ConfusionMatrix, self).__init__(file_path, local)
 
         # modify API for conf_matrix
         self.api = LOCAL_API(file_path, conf_matrix=True)
