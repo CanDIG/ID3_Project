@@ -22,7 +22,7 @@ setuptools.setup(
     include_package_data=True,
     entry_points={
         'console_scripts': [
-            'train_id3=id3_variants_training.main:main',
+            'train_id3=id3_variants_training.__main__:main',
         ],
     },
 )
