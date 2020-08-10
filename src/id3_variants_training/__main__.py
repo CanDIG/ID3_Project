@@ -8,14 +8,14 @@ def main():
     default_file_path = resource_filename(config.__name__, 'config.json')
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--config_file', help='Path to the config file that contains variant ranges in JSON format',
+    parser.add_argument('--config-file', help='path to the config file that contains variant ranges in JSON format',
                         default=default_file_path)
-    parser.add_argument('--use_server_vcf_files', action='store_true', default=False,
-                        help='Query VCF files from the server')
+    parser.add_argument('--use-candig-apis', action='store_true', default=False,
+                        help='use remote API to access variant information rather than local VCF files')
     args = parser.parse_args()
 
     # Creates ConfusionMatrix object with a path to the config file and whether to use local VCF files or server VCF files
-    use_local_vcf_files = not args.use_server_vcf_files
+    use_local_vcf_files = not args.use_candig_apis
     conf_matrix = ConfusionMatrix(args.config_file, use_local_vcf_files)
 
     # prints the ConfusionMatrix
