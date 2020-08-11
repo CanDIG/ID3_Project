@@ -14,7 +14,7 @@ setuptools.setup(
     description='Demonstrates training of a decision tree using CanDIG APIs.',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/CanDIG/ID3_Project',
+    url='https://github.com/CanDIG/id3-variants-training',
     packages=['id3_variants_training'],
     package_dir={'id3_variants_training': 'src/id3_variants_training'},
     python_requires='>=3.7',
