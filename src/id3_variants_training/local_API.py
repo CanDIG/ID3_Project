@@ -1,7 +1,5 @@
 import vcf
 import json
-from pkg_resources import resource_filename
-import data
 
 
 class LOCAL_API:
@@ -66,10 +64,8 @@ class LOCAL_API:
         variant_list = []
         for var_range in self.config['variant_ranges']:
             vcf_path = self.config['chr_paths'][str(var_range['chr'])]
-            vcf_path = vcf_path.split('/')[1]
-            abs_vcf_path = resource_filename(data.__name__, vcf_path)
             print(vcf_path)
-            vcf_reader = vcf.Reader(open(str(abs_vcf_path), 'rb'))
+            vcf_reader = vcf.Reader(open(str(vcf_path), 'rb'))
             variants = vcf_reader.fetch(int(var_range['chr']), int(var_range['start']), int(var_range['end']))
             variant_list.extend([variant for variant in variants])
         return variant_list
@@ -137,9 +133,8 @@ class LOCAL_API:
         """
         Reads the usermappings from a file and updates the variables in the class
         """
-        user_mapping_path = self.config['user_mapping_path'].split('/')[1]
-        user_mapping_abs_path = resource_filename(data.__name__, user_mapping_path)
-        with open(user_mapping_abs_path) as file:
+        user_mapping_path = self.config['user_mapping_path']
+        with open(user_mapping_path) as file:
             next(file)
             for line in file:
                 split_line = line.split('\t')
