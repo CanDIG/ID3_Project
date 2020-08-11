@@ -1,11 +1,11 @@
 from .ConfusionMatrix import ConfusionMatrix
 import argparse
 from pkg_resources import resource_filename
-import config
+import data
 
 
 def main():
-    default_file_path = resource_filename(config.__name__, 'config.json')
+    default_file_path = resource_filename(data.__name__, 'config.json')
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--config-file', help='path to the config file that contains variant ranges in JSON format',
