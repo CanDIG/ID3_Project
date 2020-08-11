@@ -1,14 +1,14 @@
-from __future__ import division
 import math
-from anytree import Node, RenderTree
+from anytree import Node
 from anytree.exporter import DotExporter
-from local_API import LOCAL_API
-from ga4gh_API import GA4GH_API
-from ID3_Node import ID3_Node
+from .local_API import LOCAL_API
+from .ga4gh_API import GA4GH_API
+from .ID3_Node import ID3_Node
+
 
 class ID3:
 
-    def __init__(self, file_path='config.json', local=True):
+    def __init__(self, file_path, local):
         """
         Initializes the ID3 class
 
@@ -23,7 +23,6 @@ class ID3:
         TODO:
             * Add logging so user can know if the classifier is working
         """
-        
         self.api = LOCAL_API(file_path) if local else GA4GH_API(file_path)
         subset = self.api.get_target_set()
         self.root_node = ID3_Node('root', subset, True)

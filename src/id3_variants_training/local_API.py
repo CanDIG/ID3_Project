@@ -1,6 +1,7 @@
 import vcf
 import json
 
+
 class LOCAL_API:
     def __init__(self, file_path, conf_matrix=False):
         """
@@ -132,7 +133,8 @@ class LOCAL_API:
         """
         Reads the usermappings from a file and updates the variables in the class
         """
-        with open(self.config['user_mapping_path']) as file:
+        user_mapping_path = self.config['user_mapping_path']
+        with open(user_mapping_path) as file:
             next(file)
             for line in file:
                 split_line = line.split('\t')
