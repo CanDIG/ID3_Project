@@ -11,7 +11,7 @@ with open('requirements.txt', 'r') as file:
 
 setuptools.setup(
     name='id3-variants-training',
-    description='',
+    description='Demonstrates training of a decision tree using CanDIG APIs.',
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/CanDIG/ID3_Project',
