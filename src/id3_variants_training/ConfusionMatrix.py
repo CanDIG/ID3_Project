@@ -40,20 +40,20 @@ class ConfusionMatrix(ID3):
 
         # create conf_matrix and calculate useful attributes
         self.length = len(self.api.ancestry_list)
-        self.conf_matrix = [ [0 for x in range(0, self.length)] for y in range(0, self.length) ]
+        self.conf_matrix = [[0] * self.length for _ in range(self.length)]
 
         for variants, popu in zip(self.api.test_variant_list, self.api.test_popu_list):
             include_variants = [self.api.variant_name_list[idx] for idx, is_variant in enumerate(variants) if is_variant == 1]
 
             # Actual Result
-            y = self.api.ancestry_list.index( popu )
+            y = self.api.ancestry_list.index(popu)
             # Predicted Result
-            x = self.api.ancestry_list.index( self.predict(include_variants).most_common_ancestry )
+            x = self.api.ancestry_list.index(self.predict(include_variants).most_common_ancestry)
 
             self.conf_matrix[y][x] += 1
 
-        self.diagonal_sum = sum( [self.conf_matrix[i][i] for i in range(0, self.length)] )
-        self.total = sum( [sum(self.conf_matrix[i]) for i in range(0, self.length)] )
+        self.diagonal_sum = sum([self.conf_matrix[i][i] for i in range(self.length)])
+        self.total = sum([sum(self.conf_matrix[i]) for i in range(self.length)])
 
     def accuracy(self):
         '''
