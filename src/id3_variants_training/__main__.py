@@ -14,7 +14,7 @@ def main():
     conf_matrix = ConfusionMatrix(getattr(args, 'config-file'), use_local_vcf_files)
 
     # prints the ConfusionMatrix
-    conf_matrix.print_matrix()
+    print(conf_matrix)
 
     # prints the list of all the variant names
     print(conf_matrix.api.variant_name_list)

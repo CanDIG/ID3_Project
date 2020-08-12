@@ -139,14 +139,13 @@ class ConfusionMatrix(ID3):
 
         return sum_actual_anc / self.total
 
-    def print_matrix(self):
-        for row in self.conf_matrix:
-            print(row)
+    def __str__(self):
+        return '\n'.join([str(self.conf_matrix[i]) for i in range(len(self.conf_matrix))])
 
 
 if __name__ == "__main__":
     c = ConfusionMatrix()
-    c.print_matrix()
+    print(c)
     print(c.accuracy())
     print(c.prevalance('ESN'))
 
