@@ -1,5 +1,4 @@
 import math
-import json
 from anytree import Node
 from anytree.exporter import DotExporter
 from .local_API import LOCAL_API
