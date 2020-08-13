@@ -64,7 +64,6 @@
         "4": "data/train/chr4.vcf.gz",
         "5": "data/train/chr5.vcf.gz",
         "6": "data/train/chr6.vcf.gz",
-        "7": "data/train/chr7.vcf.gz",
         "8": "data/train/chr8.vcf.gz",
         "9": "data/train/chr9.vcf.gz",
         "10": "data/train/chr10.vcf.gz",
@@ -78,7 +77,5 @@
         "18": "data/train/chr18.vcf.gz",
         "19": "data/train/chr19.vcf.gz",
         "20": "data/train/chr20.vcf.gz",
-        "21": "data/train/chr21.vcf.gz",
-        "22": "data/train/chr21.vcf.gz"
    }
 }
