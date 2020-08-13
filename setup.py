@@ -10,7 +10,7 @@ with open('requirements.txt', 'r') as file:
         install_requires[i] = install_requires[i].strip()
 
 setuptools.setup(
-    name='id3-variants-training',
+    name='id3_variants_training',
     description='Demonstrates training of a decision tree using CanDIG APIs.',
     long_description=long_description,
     long_description_content_type='text/markdown',
