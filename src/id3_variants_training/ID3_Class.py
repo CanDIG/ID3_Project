@@ -165,7 +165,7 @@ class ID3:
                 final_info_gain = info_gain
                 ret_index = idx
         # checks if there is any info gain
-        if final_info_gain <= 1.e-8:
+        if final_info_gain <= 0.1:
             return None
         return ret_index
 
