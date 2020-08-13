@@ -1,0 +1,11 @@
+{  
+   "variant_ranges":[  
+        { "start": "0",  "end": "2", "chr": "1" }
+    ],
+   "ga4gh_server_url": "http://localhost:3000/",
+   "ga4gh_server_dataset_id": "WyIxMDAwZ2Vub21lcyJd",
+   "user_mapping_path": "test_cases/case1/ancestries.ped",
+   "chr_paths": {
+        "1": "test_cases/case1/train/chr1.vcf.gz"
+   }
+}
