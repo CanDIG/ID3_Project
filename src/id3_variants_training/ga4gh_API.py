@@ -92,8 +92,9 @@ class GA4GH_API:
             'referenceName': chrom
         }
         r = requests.post('%s%s' %  (self.host_url, 'variants/search'), json=req_body).json()
-        for variant in r['results']['variants']:
-            variant_list.append(':'.join([chrom, variant['start'], variant['end']]))
+        if 'results' in r:
+            for variant in r['results']['variants']:
+                variant_list.append(':'.join([chrom, variant['start'], variant['end']]))
         return variant_list
 
 
