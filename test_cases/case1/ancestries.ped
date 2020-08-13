@@ -1,13 +1,13 @@
 Family ID	Individual ID	Paternal ID	Maternal ID	Gender	Phenotype	Population	Relationship	Siblings	Second Order	Third Order	Children	Other Comments
-.	A1  0	0	1	0	A	unrel	0	0	0	0	0
-.	A2  0	0	1	0	A	unrel	0	0	0	0	0
-.	A3  0	0	1	0	A	unrel	0	0	0	0	0
-.	A4  0	0	1	0	A	unrel	0	0	0	0	0
-.	A5  0	0	1	0	A	unrel	0	0	0	0	0
-.	A6  0	0	1	0	A	unrel	0	0	0	0	0
-.	B1  0	0	1	0	B	unrel	0	0	0	0	0
-.	B2  0	0	1	0	B	unrel	0	0	0	0	0
-.	B3  0	0	1	0	B	unrel	0	0	0	0	0
-.	B4  0	0	1	0	B	unrel	0	0	0	0	0
-.	B5  0	0	1	0	B	unrel	0	0	0	0	0
-.	B6  0	0	1	0	B	unrel	0	0	0	0	0
+.	A1	0	0	1	0	A	unrel	0	0	0	0	0
+.	A2	0	0	1	0	A	unrel	0	0	0	0	0
+.	A3	0	0	1	0	A	unrel	0	0	0	0	0
+.	A4	0	0	1	0	A	unrel	0	0	0	0	0
+.	A5	0	0	1	0	A	unrel	0	0	0	0	0
+.	A6	0	0	1	0	A	unrel	0	0	0	0	0
+.	B1	0	0	1	0	B	unrel	0	0	0	0	0
+.	B2	0	0	1	0	B	unrel	0	0	0	0	0
+.	B3	0	0	1	0	B	unrel	0	0	0	0	0
+.	B4	0	0	1	0	B	unrel	0	0	0	0	0
+.	B5	0	0	1	0	B	unrel	0	0	0	0	0
+.	B6	0	0	1	0	B	unrel	0	0	0	0	0
