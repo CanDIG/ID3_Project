@@ -7,7 +7,6 @@ tabix -h s3://1000genomes/release/20130502/ALL.chr3.phase3_shapeit2_mvncall_inte
 tabix -h s3://1000genomes/release/20130502/ALL.chr4.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz 4:38815501-38815503 4:100239318-100239320 4:100244318-100244320 4:105375422-105375424 > chr4.vcf
 tabix -h s3://1000genomes/release/20130502/ALL.chr5.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz 5:33951692-33951694 5:170202983-170202985 > chr5.vcf
 tabix -h s3://1000genomes/release/20130502/ALL.chr6.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz 6:6845034-6845036 6:136482726-136482728 > chr6.vcf
-tabix -h s3://1000genomes/release/20130502/ALL.chr7.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz 7:90518277-90518279 > chr7.vcf
 tabix -h s3://1000genomes/release/20130502/ALL.chr8.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz 8:28172585-28172587 8:31896591-31896593 8:110602316-110602318 8:122124301-122124303 8:145639680-145639682 > chr8.vcf
 tabix -h s3://1000genomes/release/20130502/ALL.chr9.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz 9:127267688-127267690 > chr9.vcf
 tabix -h s3://1000genomes/release/20130502/ALL.chr10.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz 10:94921064-94921066 > chr10.vcf
@@ -21,7 +20,6 @@ tabix -h s3://1000genomes/release/20130502/ALL.chr17.phase3_shapeit2_mvncall_int
 tabix -h s3://1000genomes/release/20130502/ALL.chr18.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz 18:35277621-35277623 18:40488278-40488280 18:67578930-67578932 18:67867662-67867664 > chr18.vcf
 tabix -h s3://1000genomes/release/20130502/ALL.chr19.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz 19:4077095-4077097 > chr19.vcf
 tabix -h s3://1000genomes/release/20130502/ALL.chr20.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz 20:62159503-62159505 > chr20.vcf
-tabix -h s3://1000genomes/release/20130502/ALL.chr22.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz 22:41697337-41697339 > chr22.vcf
 
 strip_and_compress() {
     local vcf=$1
