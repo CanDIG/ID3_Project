@@ -1,6 +1,6 @@
 {  
    "variant_ranges":[  
-        { "start": "0",  "end": "2", "chr": "1" }
+        { "start": "1",  "end": "3", "chr": "1" }
     ],
    "ga4gh_server_url": "http://localhost:3000/",
    "ga4gh_server_dataset_id": "WyIxMDAwZ2Vub21lcyJd",
