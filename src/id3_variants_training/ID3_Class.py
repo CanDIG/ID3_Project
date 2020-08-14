@@ -8,22 +8,21 @@ from .ID3_Node import ID3_Node
 
 class ID3:
 
-    def __init__(self, file_path, local):
+    def __init__(self, api):
         """
         Initializes the ID3 class
 
         Args:
-            file_path (str): Path to json file that contains the variant ranges
-            local (bool): flag to determine whether or not to read locally or from a server
+            api (LOCAL_API | GA4GH_API): API object that is used to interact with the virtual API
 
         Attributes:
-            api (API): API object that is used to interact with the virtual API
+            api (LOCAL_API | GA4GH_API): API object that is used to interact with the virtual API
             root_node (Node): Creates the root node of the tree to be added upon
 
         TODO:
             * Add logging so user can know if the classifier is working
         """
-        self.api = LOCAL_API(file_path) if local else GA4GH_API(file_path)
+        self.api = api
         subset = self.api.get_target_set()
         self.root_node = ID3_Node('root', subset, True)
         self.ID3(self.root_node)
@@ -207,7 +206,7 @@ class ID3:
                 self.ID3(ID3_Node(var_name, dict(wo_subset), with_variant=False, split_path=wo_split_path, parent=node))
 
 if __name__ == "__main__":
-    id3_alg = ID3('config.json', local=True)
+    id3_alg = ID3()
     print(id3_alg.api.variant_name_list)
     id3_alg.print_tree('udo1')
     #print id3_alg.api.ancestry_list
