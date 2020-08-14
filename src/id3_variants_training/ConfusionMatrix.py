@@ -3,9 +3,9 @@ from .local_API import LOCAL_API
 from .ga4gh_API import GA4GH_API
 
 
-class ConfusionMatrix(ID3):
+class ConfusionMatrix:
 
-    def __init__(self, api):
+    def __init__(self, id3_tree):
         """
         Creates confusion matrix with the first index (Y) as the correct population and the
         second index (X) as the predicted population. THe order of the ancestries is dictated
@@ -15,18 +15,18 @@ class ConfusionMatrix(ID3):
         predicted is X axis
 
         Args:
-            api (LOCAL_API | GA4GH_API): API object that is used to interact with the virtual API
+            id3_tree (ID3):
 
         Attributes:
             api (LOCAL_API | GA4GH_API): API object that is used to interact with the virtual API
-            root_node (Node): Creates the root node of the tree to be added upon
-
+            id3_tree (ID3):
             length (int): length of all the ancestries
             conf_matrix (list): the confusion matrix based on the ID3 classifier
             diagonal_sum (int): sum of the diagonals within the matrix
             total (int): total sum of all values in matrix
         """
-        super(ConfusionMatrix, self).__init__(api)
+        self.api = id3_tree.api
+        self.id3_tree = id3_tree
 
         # create conf_matrix and calculate useful attributes
         self.length = len(self.api.ancestry_list)
@@ -38,7 +38,7 @@ class ConfusionMatrix(ID3):
             # Actual Result
             y = self.api.ancestry_list.index(popu)
             # Predicted Result
-            x = self.api.ancestry_list.index(self.predict(include_variants).most_common_ancestry)
+            x = self.api.ancestry_list.index(self.id3_tree.predict(include_variants).most_common_ancestry)
 
             self.conf_matrix[y][x] += 1
 

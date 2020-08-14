@@ -1,10 +1,11 @@
-from .ConfusionMatrix import ConfusionMatrix
 from .local_API import LOCAL_API
 from .ga4gh_API import GA4GH_API
+from .ID3_Class import ID3
 import argparse
+import pickle
 
 
-def main():
+def train():
     parser = argparse.ArgumentParser()
     parser.add_argument('config-file', help='path to the config file that contains variant ranges in JSON format')
     parser.add_argument('--use-candig-apis', action='store_true', default=False,
@@ -17,16 +18,11 @@ def main():
     # get either a LOCAL_API or GA4GH_API object depending on the command line arguments passed in
     api = get_api(config_file_path, use_local_vcf_files, True)
 
-    conf_matrix = ConfusionMatrix(api)
-
-    # prints the ConfusionMatrix
-    print(conf_matrix)
-
-    # prints the list of all the variant names
-    print(conf_matrix.api.variant_name_list)
-
-    # predicts ancestry of the person with the variant `22:50121766:50121767` and no other variant in `variant_name_list`
-    conf_matrix.predict(['22:50121766:50121767'])
+    # create ID3 tree and serialize it to file called 'id3_tree'
+    id3_tree = ID3(api)
+    output_file = open('id3_tree', 'wb')
+    pickle.dump(id3_tree, output_file)
+    output_file.close()
 
 
 def get_api(file_path, local, conf_matrix):
@@ -55,4 +51,4 @@ def get_api(file_path, local, conf_matrix):
 
 
 if __name__ == '__main__':
-    main()
+    train()

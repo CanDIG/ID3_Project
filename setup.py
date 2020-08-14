@@ -21,7 +21,8 @@ setuptools.setup(
     install_requires=install_requires,
     entry_points={
         'console_scripts': [
-            'train-id3=id3_variants_training.__main__:main',
+            'train-id3=id3_variants_training.__train__:train',
+            'predict-id3=id3_variants_training.__predict__:predict'
         ],
     },
 )
