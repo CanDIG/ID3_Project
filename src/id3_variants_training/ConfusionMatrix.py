@@ -45,7 +45,7 @@ class ConfusionMatrix(ID3):
         self.diagonal_sum = sum([self.conf_matrix[i][i] for i in range(self.length)])
         self.total = sum([sum(self.conf_matrix[i]) for i in range(self.length)])
 
-    def get_accuracy_rate(self):
+    def get_accuracy(self):
         """
         How often the classifier is correct
 
@@ -61,7 +61,7 @@ class ConfusionMatrix(ID3):
         Returns:
             (float): a number between 0 and 1
         """
-        return 1 - self.get_accuracy_rate()
+        return 1 - self.get_accuracy()
 
     def get_hit_rate(self, ancestry):
         """
@@ -99,7 +99,7 @@ class ConfusionMatrix(ID3):
 
         return 1 - hit_rate
 
-    def get_precision_rate(self, ancestry):
+    def get_precision(self, ancestry):
         """
         For a particular ancestry, how often is the prediction correct
 
@@ -119,7 +119,7 @@ class ConfusionMatrix(ID3):
 
         return true_anc / sum_pred_anc
 
-    def get_prevalence_rate(self, ancestry):
+    def get_prevalence(self, ancestry):
         """
         How often does the ancestry appear in the sample relative to the sum of all ancestries
 
@@ -145,5 +145,5 @@ class ConfusionMatrix(ID3):
 if __name__ == "__main__":
     c = ConfusionMatrix()
     print(c)
-    print(c.get_accuracy_rate())
-    print(c.get_prevalence_rate('ESN'))
+    print(c.get_accuracy())
+    print(c.get_prevalence('ESN'))
