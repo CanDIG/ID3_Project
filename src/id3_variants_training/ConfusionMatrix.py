@@ -1,12 +1,12 @@
 from .ID3_Class import ID3
 from .local_API import LOCAL_API
-from .ID3_Node import ID3_Node
+from .ga4gh_API import GA4GH_API
 
 
 class ConfusionMatrix(ID3):
 
-    def __init__(self, file_path, local):
-        '''
+    def __init__(self, api):
+        """
         Creates confusion matrix with the first index (Y) as the correct population and the
         second index (X) as the predicted population. THe order of the ancestries is dictated
         by the ancestry_list within the api class
@@ -15,28 +15,18 @@ class ConfusionMatrix(ID3):
         predicted is X axis
 
         Args:
-            file_path (str): Path to json file that contains the variant ranges
-            local (bool): Flag to determine whether or not to read locally or from a server
+            api (LOCAL_API | GA4GH_API): API object that is used to interact with the virtual API
 
         Attributes:
-            api (API): API object that is used to interact with the virtual API
+            api (LOCAL_API | GA4GH_API): API object that is used to interact with the virtual API
             root_node (Node): Creates the root node of the tree to be added upon
 
             length (int): length of all the ancestries
-            ancestry_list (list): list of all ancestries without repetitions
             conf_matrix (list): the confusion matrix based on the ID3 classifier
             diagonal_sum (int): sum of the diagonals within the matrix
             total (int): total sum of all values in matrix
-        '''
-        super(ConfusionMatrix, self).__init__(file_path, local)
-
-        # modify API for conf_matrix
-        self.api = LOCAL_API(file_path, conf_matrix=True)
-
-        # initialize ID3 algorithm
-        subset = self.api.get_target_set()
-        self.root_node = ID3_Node('root', subset, True)
-        self.ID3(self.root_node)
+        """
+        super(ConfusionMatrix, self).__init__(api)
 
         # create conf_matrix and calculate useful attributes
         self.length = len(self.api.ancestry_list)
@@ -55,41 +45,45 @@ class ConfusionMatrix(ID3):
         self.diagonal_sum = sum([self.conf_matrix[i][i] for i in range(self.length)])
         self.total = sum([sum(self.conf_matrix[i]) for i in range(self.length)])
 
-    def accuracy(self):
-        '''
+    def get_accuracy_rate(self):
+        """
         How often the classifier is correct
 
         Returns:
             (float): a number between 0 and 1
-        '''
+        """
         return self.diagonal_sum / self.total
 
-    def misclass_rate(self):
-        '''
+    def get_misclassification_rate(self):
+        """
         How often is the classifier wrong
 
         Returns:
             (float): a number between 0 and 1
-        '''
-        return 1 - self.accuracy()
+        """
+        return 1 - self.get_accuracy_rate()
 
-    def true_ancestry_rate(self, ancestry):
-        '''
+    def get_hit_rate(self, ancestry):
+        """
         For a particular ancestry, how often does it predict the correct ancestry
+
+        Args:
+            ancestry (string): a three character code depicting populations of people
 
         Returns:
             (float): a number between 0 and 1
-
-        '''
+        """
         if ancestry not in self.api.ancestry_list:
-            return "Not a valid ancestry"
+            print("Not a valid ancestry")
+            return None
 
         popu_i = self.api.ancestry_list.index(ancestry)
-
         true_anc = self.conf_matrix[popu_i][popu_i]
-        sum_actual_anc = sum([ self.conf_matrix[popu_i][i] for i in range(0, self.length) ])
+        sum_actual_anc = sum(self.conf_matrix[popu_i])
 
-    def false_ancestry_rate(self, ancestry):
+        return true_anc / sum_actual_anc
+
+    def get_miss_rate(self, ancestry):
         """
         For a particular ancestry, how often does it predict the incorrect ancestry
 
@@ -98,12 +92,15 @@ class ConfusionMatrix(ID3):
 
         Returns:
             (float): a number between 0 and 1
-
         """
-        return 1 - self.true_ancestry_rate
+        hit_rate = self.get_hit_rate(ancestry)
+        if not hit_rate:
+            return None
 
-    def precision(self, ancestry):
-        '''
+        return 1 - hit_rate
+
+    def get_precision_rate(self, ancestry):
+        """
         For a particular ancestry, how often is the prediction correct
 
         Args:
@@ -111,18 +108,19 @@ class ConfusionMatrix(ID3):
 
         Returns:
             (float): a number between 0 and 1
-        '''
+        """
         if ancestry not in self.api.ancestry_list:
-            return "Not a valid ancestry"
+            print("Not a valid ancestry")
+            return None
 
         popu_i = self.api.ancestry_list.index(ancestry)
         true_anc = self.conf_matrix[popu_i][popu_i]
-        sum_pred_anc = sum([ self.conf_matrix[i][popu_i] for i in range(0, self.length) ])
+        sum_pred_anc = sum([self.conf_matrix[i][popu_i] for i in range(self.length)])
 
-        return true_anc/sum_pred_anc
+        return true_anc / sum_pred_anc
 
-    def prevalance(self, ancestry):
-        '''
+    def get_prevalence_rate(self, ancestry):
+        """
         How often does the ancestry appear in the sample relative to the sum of all ancestries
 
         Args:
@@ -130,12 +128,13 @@ class ConfusionMatrix(ID3):
 
         Returns:
             (float): a number between 0 and 1
-        '''
+        """
         if ancestry not in self.api.ancestry_list:
-            return "Not a valid ancestry"
+            print("Not a valid ancestry")
+            return None
 
         popu_i = self.api.ancestry_list.index(ancestry)
-        sum_actual_anc = sum([ self.conf_matrix[popu_i][i] for i in range(0, self.length) ])
+        sum_actual_anc = sum(self.conf_matrix[popu_i])
 
         return sum_actual_anc / self.total
 
@@ -146,7 +145,5 @@ class ConfusionMatrix(ID3):
 if __name__ == "__main__":
     c = ConfusionMatrix()
     print(c)
-    print(c.accuracy())
-    print(c.prevalance('ESN'))
-
-
+    print(c.get_accuracy_rate())
+    print(c.get_prevalence_rate('ESN'))
