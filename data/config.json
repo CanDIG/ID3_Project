@@ -76,6 +76,6 @@
         "17": "data/train/chr17.vcf.gz",
         "18": "data/train/chr18.vcf.gz",
         "19": "data/train/chr19.vcf.gz",
-        "20": "data/train/chr20.vcf.gz",
+        "20": "data/train/chr20.vcf.gz"
    }
 }
