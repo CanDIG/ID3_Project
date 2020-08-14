@@ -68,7 +68,7 @@ class GA4GH_API:
         variant_list = []
         for var_range in self.config['variant_ranges']:
             variant_list.extend(self.query_variants(str(var_range['chr']), str(var_range['start']), str(var_range['end'])))
-        return variant_list
+        return list(set(variant_list))    # deduplicate list
 
     def query_variants(self, chrom, start, end):
         """
@@ -92,8 +92,9 @@ class GA4GH_API:
             'referenceName': chrom
         }
         r = requests.post('%s%s' %  (self.host_url, 'variants/search'), json=req_body).json()
-        for variant in r['results']['variants']:
-            variant_list.append(':'.join([chrom, variant['start'], variant['end']]))
+        if 'results' in r:
+            for variant in r['results']['variants']:
+                variant_list.append(':'.join([chrom, variant['start'], variant['end']]))
         return variant_list
 
 
@@ -173,7 +174,7 @@ class GA4GH_API:
         req =  self.craft_api_request()
         ancestry_counts = requests.post('%s%s' %  (self.host_url, 'count'), json=req).json()['results']['patients'][0]['ethnicity']
         if self.ancestry_list == []:
-            self.ancestry_list = ancestry_counts.keys()
+            self.ancestry_list = list(ancestry_counts.keys())
 
         return ancestry_counts
 
