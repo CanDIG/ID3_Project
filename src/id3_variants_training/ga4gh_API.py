@@ -1,5 +1,7 @@
+import asyncio
 import json
 import requests
+import aiohttp
 
 class GA4GH_API:
     def __init__(self, file_path):
@@ -209,6 +211,44 @@ class GA4GH_API:
         return r_w_var, r_wo_var
 
 
+    async def fetch_count(self, session, url, var, split_path):
+        req_body = self.craft_api_request(split_path)
+        async with session.post(url, json=req_body) as response:
+            resp = await response.json()
+            variant_counts = resp['results']['patients'][0]['ethnicity'] if 'ethnicity' in resp['results']['patients'][0] else {}
+            return {var: variant_counts}
+
+
+    async def fetch_all_counts(self, split_path):
+        url = f"{self.host_url}count"
+
+        null_responses = []
+        async with aiohttp.ClientSession() as session:
+            tasks = []
+
+            for var in self.variant_name_list:
+                if var in split_path[0]:
+                    null_responses.append({var:{}})
+                    continue
+
+                local_split_path = (split_path[0] + [var], split_path[1] + [1])
+                tasks.append(
+                    self.fetch_count(session, url, var, local_split_path)
+                )
+
+            responses = await asyncio.gather(*tasks, return_exceptions=True)
+            alldict = {}
+            for item in null_responses + responses:
+                for k, v in item.items():
+                    alldict[k] = v
+            
+            w_variant_list = []
+            for var in self.variant_name_list:
+                w_variant_list.append(alldict[var])
+
+        return w_variant_list
+
+
     def find_next_variant_counts(self, split_path):
         """
         Finds the counts of the a potential next variant to perform the
@@ -231,24 +271,7 @@ class GA4GH_API:
                     .
                 ]
         """
-        w_variant_list = []
-
-        for var in self.variant_name_list:
-            if var in split_path[0]:
-                w_variant_list.append({})
-                continue
-
-            split_path[0].append(var)
-            split_path[1].append(1)
-
-            req_body = self.craft_api_request(split_path)
-            resp = requests.post('%s%s' %  (self.host_url, 'count'), json=req_body).json()
-            variant_counts = resp['results']['patients'][0]['ethnicity'] if 'ethnicity' in resp['results']['patients'][0] else {}
-            w_variant_list.append(variant_counts)
-
-            del split_path[0][-1]
-            del split_path[1][-1]
-        return w_variant_list
+        return asyncio.run(self.fetch_all_counts(split_path))
 
 
 
