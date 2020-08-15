@@ -1,0 +1,8 @@
+##fileformat=VCFv4.1
+##FILTER=<ID=PASS,Description="All filters passed">
+##fileDate=20200101
+#CHROM  POS     ID      REF     ALT     QUAL    FILTER  INFO    FORMAT   A0	A1	A2	A3	B0	B1	B2	B3	C0	C1	C2	C3
+1	100	.	G	T	100	PASS	.	GT	0/0	0/0	0/0	0/0	0/0	0/0	0/0	0/0	0/0	0/0	0/0	0/0
+1	101	.	G	T	100	PASS	.	GT	0/0	0/0	0/0	0/0	0/0	0/0	0/0	0/0	1/1	1/1	1/1	1/1
+1	102	.	G	T	100	PASS	.	GT	0/0	0/0	0/0	0/0	0/0	0/0	0/0	0/0	0/0	0/0	0/0	0/0
+1	103	.	G	T	100	PASS	.	GT	1/1	1/1	1/1	1/1	0/0	0/0	0/0	0/0	0/0	0/0	0/0	0/0
