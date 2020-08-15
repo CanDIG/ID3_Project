@@ -5,7 +5,19 @@ import argparse
 import pickle
 
 
-def train():
+def train(use_local, config_path, model, diagram):
+    if use_local:
+        api = LOCAL_API(config_path, False)
+    else:
+        api = GA4GH_API(config_path)
+
+    id3_tree = ID3(api)
+    pickle.dump(id3_tree, model)
+    if diagram:
+        id3_tree.print_tree(diagram)
+
+
+if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('config_file', help='path to the config file that contains variant ranges in JSON format', default='config.json')
     parser.add_argument('model_file', help='path to output ID3 file', type=argparse.FileType('wb'))
@@ -14,20 +26,6 @@ def train():
                         help='use remote API to access variant information rather than local VCF files')
 
     args = parser.parse_args()
-
     use_local_vcf_files = not args.use_candig_apis
     config_file_path = args.config_file
-
-    if use_local_vcf_files:
-        api = LOCAL_API(config_file_path, False)
-    else:
-        api = GA4GH_API(config_file_path)
-
-    id3_tree = ID3(api)
-    pickle.dump(id3_tree, args.model_file)
-    if args.diagram:
-        id3_tree.print_tree(args.diagram)
-
-
-if __name__ == '__main__':
-    train()
+    train(use_local_vcf_files, config_file_path, args.model_file, args.diagram)
