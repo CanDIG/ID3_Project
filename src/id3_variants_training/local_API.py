@@ -119,7 +119,7 @@ class LOCAL_API:
             for call in variant.samples:
                 variant_dict[call.sample] = variant_dict.get(call.sample, [])
                 # checks if variant exists in person
-                if call['GT'] == '0|0':
+                if call['GT'] in ['0/0', '0|0', '.']:
                     variant_dict[call.sample].append(0)
                 else:
                     variant_dict[call.sample].append(1)
