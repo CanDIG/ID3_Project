@@ -56,7 +56,7 @@
     ],
    "ga4gh_server_url": "http://localhost:3000/",
    "ga4gh_server_dataset_id": "WyIxMDAwZ2Vub21lcyJd",
-   "user_mapping_path": "data/integrated_call_samples_v2.20130502.ALL.ped",
+   "user_mapping_path": "data/superancestries.ped",
    "chr_paths": {
         "1": "data/test/chr1.vcf.gz",
         "2": "data/test/chr2.vcf.gz",
