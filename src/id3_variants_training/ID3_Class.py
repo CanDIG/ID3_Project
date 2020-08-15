@@ -1,4 +1,4 @@
-import math
+import numpy
 from anytree.exporter import DotExporter
 from .ID3_Node import ID3_Node
 
@@ -50,13 +50,11 @@ class ID3:
         Returns:
             entropy (float): the entropy value of the subset used for the ID3 algorithm
         """
-        total_count = sum(subset.values())
-        entropy = 0
-        if total_count == 0:
-            return 0
-        for value in subset.values():
-            probability = value / total_count
-            if value != 0 : entropy -= (math.log(probability, 2) * probability)
+        values = numpy.array(list(subset.values()))
+        total = values.sum()
+        proportion = values[numpy.where(values > 0)]/total
+        entropy = -numpy.sum(proportion * numpy.log2(proportion))
+            
         return entropy
 
     def predict(self, include_variants):
@@ -146,15 +144,22 @@ class ID3:
         final_info_gain = 0
         var_idx_list = [self.api.variant_name_list.index(var_name) for var_name in split_path[0]]
 
-        if total_count == 0:
+        if total_count <= 1:
             return None
 
         # loops through all the counts for each variant
         for idx, w_var_counts in enumerate(variant_list):
             wo_var_counts = { k : subset.get(k, 0) - w_var_counts.get(k, 0) for k in list(subset.keys()) + list(w_var_counts.keys() )}
+            assert sum(w_var_counts.values()) + sum(wo_var_counts.values()) == total_count
+            w_fraction = sum(w_var_counts.values()) / total_count
+            wo_fraction = sum(wo_var_counts.values()) / total_count
+            if w_fraction == 0. or wo_fraction == 0.:
+                continue
 
             # calculates info gain
-            info_gain = ID3.entropy_by_count(subset) - ( sum(wo_var_counts.values()) / total_count * ID3.entropy_by_count(wo_var_counts) + sum(w_var_counts.values()) / total_count * ID3.entropy_by_count(w_var_counts) )
+#            info_gain = ID3.entropy_by_count(subset) - ( sum(wo_var_counts.values()) / total_count * ID3.entropy_by_count(wo_var_counts) + sum(w_var_counts.values()) / total_count * ID3.entropy_by_count(w_var_counts) )
+            info_gain = ID3.entropy_by_count(subset) - (wo_fraction * ID3.entropy_by_count(wo_var_counts) + 
+                                                        w_fraction * ID3.entropy_by_count(w_var_counts))
             # finds max info gain and checks if the index is not in excluded variants list
             if final_info_gain < info_gain and idx not in var_idx_list:
                 final_info_gain = info_gain
