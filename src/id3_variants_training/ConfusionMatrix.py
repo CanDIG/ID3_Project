@@ -1,11 +1,9 @@
-from .ID3_Class import ID3
+import pickle
 from .local_API import LOCAL_API
-from .ga4gh_API import GA4GH_API
-
 
 class ConfusionMatrix:
 
-    def __init__(self, id3_tree):
+    def __init__(self, id3_tree, api):
         """
         Creates confusion matrix with the first index (Y) as the correct population and the
         second index (X) as the predicted population. THe order of the ancestries is dictated
@@ -18,21 +16,21 @@ class ConfusionMatrix:
             id3_tree (ID3):
 
         Attributes:
-            api (LOCAL_API | GA4GH_API): API object that is used to interact with the virtual API
             id3_tree (ID3):
+            api (LOCAL_API): API object that is used to interact with the virtual API
             length (int): length of all the ancestries
             conf_matrix (list): the confusion matrix based on the ID3 classifier
             diagonal_sum (int): sum of the diagonals within the matrix
             total (int): total sum of all values in matrix
         """
-        self.api = id3_tree.api
+        self.api = api
         self.id3_tree = id3_tree
 
         # create conf_matrix and calculate useful attributes
         self.length = len(self.api.ancestry_list)
         self.conf_matrix = [[0] * self.length for _ in range(self.length)]
 
-        for variants, popu in zip(self.api.test_variant_list, self.api.test_popu_list):
+        for variants, popu in zip(self.api.variant_list, self.api.popu_list):
             include_variants = [self.api.variant_name_list[idx] for idx, is_variant in enumerate(variants) if is_variant == 1]
 
             # Actual Result
@@ -143,7 +141,8 @@ class ConfusionMatrix:
 
 
 if __name__ == "__main__":
-    c = ConfusionMatrix()
-    print(c)
-    print(c.get_accuracy())
-    print(c.get_prevalence('ESN'))
+    api = LOCAL_API('./test_cases/case1/config.json', False)
+    with open('case1.id3') as model_file:
+        id3_model = pickle.load(model_file)
+    conf_matrix = ConfusionMatrix(id3_model, api)
+    print(conf_matrix)
