@@ -146,6 +146,7 @@ class LOCAL_API:
                     self.variant_list.append(variant_dict[indiv_id])
 
         self.ancestry_list = list(set(self.ancestry_dict.values()))
+        self.ancestry_list.sort()
 
 
     def find_ignore_rows(self, split_path):
