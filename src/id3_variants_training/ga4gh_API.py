@@ -180,7 +180,7 @@ class GA4GH_API:
 
         return ancestry_counts
 
-    def split_subset(self, node, split_var):
+    async def async_split_subset(self, node, split_var):
         """
         Splits the subset given the path of the splits before and a
         variable to split on.
@@ -201,17 +201,31 @@ class GA4GH_API:
         """
         w_variant_split_path, wo_variant_split_path = GA4GH_API.create_split_path(node.split_path, split_var)
 
-        w_var_req_body = self.craft_api_request(w_variant_split_path)
-        wo_var_req_body = self.craft_api_request(wo_variant_split_path)
-
-        # make query here for
-        r_w_var = requests.post('%s%s' %  (self.host_url, 'count'), json=w_var_req_body).json()['results']['patients'][0]['ethnicity']
-        r_wo_var = requests.post('%s%s' %  (self.host_url, 'count'), json=wo_var_req_body).json()['results']['patients'][0]['ethnicity']
+        async with aiohttp.ClientSession() as session:
+            tasks = [
+                self.fetch_count(session, '+', w_variant_split_path),
+                self.fetch_count(session, '-', wo_variant_split_path)
+            ]
+            responses = await asyncio.gather(*tasks, return_exceptions=True)
+            if '+' in responses[0]:
+                r_w_var = responses[0]['+']
+                r_wo_var = responses[1]['-']
+            else:
+                r_wo_var = responses[0]['-']
+                r_w_var = responses[1]['+']
 
         return r_w_var, r_wo_var
 
+    def split_subset(self, node, split_var):
+        return asyncio.run(self.async_split_subset(node, split_var))
 
-    async def fetch_count(self, session, url, var, split_path):
+    async def fetch_count(self, session, var, split_path):
+        """
+        Asynchronously fetches counts consistent with split path
+        from the API.  Labels the return value with a label
+        (which is typically a variant)
+        """
+        url = f"{self.host_url}count"
         req_body = self.craft_api_request(split_path)
         async with session.post(url, json=req_body) as response:
             resp = await response.json()
@@ -220,8 +234,9 @@ class GA4GH_API:
 
 
     async def fetch_all_counts(self, split_path):
-        url = f"{self.host_url}count"
-
+        """
+        Fetches all the counts given all of the possible split variants
+        """
         null_responses = []
         async with aiohttp.ClientSession() as session:
             tasks = []
@@ -233,7 +248,7 @@ class GA4GH_API:
 
                 local_split_path = (split_path[0] + [var], split_path[1] + [1])
                 tasks.append(
-                    self.fetch_count(session, url, var, local_split_path)
+                    self.fetch_count(session, var, local_split_path)
                 )
 
             responses = await asyncio.gather(*tasks, return_exceptions=True)
