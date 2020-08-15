@@ -30,7 +30,7 @@ class GA4GH_API:
             self.config = json.load(f)
         self.host_url = self.config['ga4gh_server_url']
         self.dataset_id = self.config['ga4gh_server_dataset_id']
-        self.variant_name_list = self.fetch_variants(file_path)
+        self.variant_name_list = self.fetch_variants()
         self.ancestry_list = []
 
         # updates variables
@@ -64,7 +64,7 @@ class GA4GH_API:
 
         return w_split_path, wo_split_path
 
-    def fetch_variants(self, file_path):
+    def fetch_variants(self):
         variant_list = []
         for var_range in self.config['variant_ranges']:
             variant_list.extend(self.query_variants(str(var_range['chr']), str(var_range['start']), str(var_range['end'])))

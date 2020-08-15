@@ -1,8 +1,5 @@
 import math
-from anytree import Node
 from anytree.exporter import DotExporter
-from .local_API import LOCAL_API
-from .ga4gh_API import GA4GH_API
 from .ID3_Node import ID3_Node
 
 
@@ -54,7 +51,6 @@ class ID3:
             entropy (float): the entropy value of the subset used for the ID3 algorithm
         """
         total_count = sum(subset.values())
-        probability_list = []
         entropy = 0
         if total_count == 0:
             return 0
@@ -204,13 +200,3 @@ class ID3:
                 self.ID3(ID3_Node(var_name, dict(w_subset), with_variant=True, split_path=w_split_path, parent=node))
             if sum(wo_subset.values()) > 0:
                 self.ID3(ID3_Node(var_name, dict(wo_subset), with_variant=False, split_path=wo_split_path, parent=node))
-
-if __name__ == "__main__":
-    id3_alg = ID3()
-    print(id3_alg.api.variant_name_list)
-    id3_alg.print_tree('udo1')
-    #print id3_alg.api.ancestry_list
-    #print id3_alg.api.variant_name_list
-
-
-    #print id3_alg.api.test_variant_list

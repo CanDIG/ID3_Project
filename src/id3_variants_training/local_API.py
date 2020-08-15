@@ -113,7 +113,6 @@ class LOCAL_API:
                                            (1 = variant exists, 0 = variant doesn't exist)
         """
         variant_dict = {}
-        variant_name_list = []
         idx = 0
         # loops through variants
         for variant in variants:
@@ -292,7 +291,6 @@ class LOCAL_API:
         """
         my_dict = {}
         for variants in (self.variant_list):
-            count = 0
             for idx, variant in enumerate(variants):
                 if variant == 1:
                     my_dict[self.variant_name_list[idx]] = my_dict.get(self.variant_name_list[idx], 0) + 1

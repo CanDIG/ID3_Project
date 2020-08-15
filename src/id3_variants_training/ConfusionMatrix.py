@@ -1,11 +1,8 @@
-from .ID3_Class import ID3
-from .local_API import LOCAL_API
-from .ga4gh_API import GA4GH_API
 
 
 class ConfusionMatrix:
 
-    def __init__(self, id3_tree):
+    def __init__(self, id3_tree, api):
         """
         Creates confusion matrix with the first index (Y) as the correct population and the
         second index (X) as the predicted population. THe order of the ancestries is dictated
@@ -18,14 +15,14 @@ class ConfusionMatrix:
             id3_tree (ID3):
 
         Attributes:
-            api (LOCAL_API | GA4GH_API): API object that is used to interact with the virtual API
             id3_tree (ID3):
+            api (LOCAL_API): API object that is used to interact with the virtual API
             length (int): length of all the ancestries
             conf_matrix (list): the confusion matrix based on the ID3 classifier
             diagonal_sum (int): sum of the diagonals within the matrix
             total (int): total sum of all values in matrix
         """
-        self.api = id3_tree.api
+        self.api = api
         self.id3_tree = id3_tree
 
         # create conf_matrix and calculate useful attributes
@@ -140,10 +137,3 @@ class ConfusionMatrix:
 
     def __str__(self):
         return '\n'.join([str(self.conf_matrix[i]) for i in range(len(self.conf_matrix))])
-
-
-if __name__ == "__main__":
-    c = ConfusionMatrix()
-    print(c)
-    print(c.get_accuracy())
-    print(c.get_prevalence('ESN'))
