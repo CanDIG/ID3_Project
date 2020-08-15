@@ -12,7 +12,7 @@ def random_rotation_matrix(n):
     by creating a random matrix and doing a QR factorization.
     """
     rand_matrix = numpy.random.rand(n, n)
-    q, r = linalg.qr(rand_matrix)
+    q, _ = linalg.qr(rand_matrix)
 
     return q
 
@@ -43,31 +43,31 @@ def output_vcf(outfile, features, names):
     outfile.write('##fileDate=20200101\n')
     outfile.write('#CHROM  POS     ID      REF     ALT     QUAL    FILTER  INFO    FORMAT   ' + '\t'.join(names) + '\n')
 
-    chr = 1
-    id = '.'
-    ref = 'G'    
-    alt = 'T'    
+    chrom = 1
+    rsid = '.'
+    ref = 'G'
+    alt = 'T'
     qual = 100
-    filter = 'PASS'
+    filt = 'PASS'
     info = '.'
-    format = 'GT'
+    fmt = 'GT'
     for rownum, row in enumerate(numpy.transpose(features)):
         pos = 100+rownum
         gts = ['1/1' if item > 0 else '0/0' for item in row]
-        outfile.write(f"{chr}\t{pos}\t{id}\t{ref}\t{alt}\t{qual}\t{filter}\t{info}\t{format}\t" + '\t'.join(gts) + '\n')
+        outfile.write(f"{chrom}\t{pos}\t{rsid}\t{ref}\t{alt}\t{qual}\t{filt}\t{info}\t{fmt}\t" + '\t'.join(gts) + '\n')
 
 
 def output_ancestries(outfile, n_ancestries, samples_per):
     outfile.write("Family ID\tIndividual ID\tPaternal ID\tMaternal ID\tGender\tPhenotype\tPopulation\tRelationship\tSiblings\tSecond Order\tThird Order\tChildren\tOther Comments\n")
-    id='.'
-    gender=1
+    noid = '.'
+    gender = 1
     other = 0
     relation = 'unrel'
     for a in range(0, n_ancestries):
         ancestry = str(chr(65 + a))
         for item in range(0, 2*samples_per):
             individual_id = ancestry + str(item)
-            outfile.write(f"{id}\t{individual_id}\t{other}\t{other}\t{gender}\t{other}\t{ancestry}\t{relation}\t{other}\t{other}\t{other}\t{other}\t{other}\n")
+            outfile.write(f"{noid}\t{individual_id}\t{other}\t{other}\t{gender}\t{other}\t{ancestry}\t{relation}\t{other}\t{other}\t{other}\t{other}\t{other}\n")
 
 
 def generate_patients(n_ancestries, samples_per, start_at=0):
