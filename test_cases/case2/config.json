@@ -6,6 +6,6 @@
    "ga4gh_server_dataset_id": "",
    "user_mapping_path": "test_cases/case2/ancestries.ped",
    "chr_paths": {
-        "1": "test_cases/case2/train/chr1.vcf"
+        "1": "test_cases/case2/train/chr1.vcf.gz"
    }
 }
