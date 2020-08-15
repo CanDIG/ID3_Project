@@ -193,6 +193,8 @@ class ID3:
         print("Created Node")
         subset = node.subset
         split_index = self.find_variant_split(subset, node.split_path)
+        if split_index is None:
+            return
         if not self.is_leaf_node(subset, node.split_path, split_index):
             var_name = self.api.variant_name_list[split_index]
 

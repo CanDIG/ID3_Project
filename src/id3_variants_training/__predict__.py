@@ -1,5 +1,6 @@
 import argparse
 import pickle
+import numpy
 from .ConfusionMatrix import ConfusionMatrix
 from .local_API import LOCAL_API
 
@@ -12,7 +13,9 @@ def predict():
     api = LOCAL_API(args.config_path, False)
     id3_tree = pickle.load(args.model_file)
     conf_matrix = ConfusionMatrix(id3_tree, api)
+    numpy.set_printoptions(linewidth=10000)
     print(conf_matrix)
+    print(conf_matrix.get_accuracy())
 
 
 if __name__ == '__main__':

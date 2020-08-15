@@ -1,5 +1,6 @@
 import pickle
 from .local_API import LOCAL_API
+import numpy
 
 class ConfusionMatrix:
 
@@ -28,7 +29,7 @@ class ConfusionMatrix:
 
         # create conf_matrix and calculate useful attributes
         self.length = len(self.api.ancestry_list)
-        self.conf_matrix = [[0] * self.length for _ in range(self.length)]
+        self.conf_matrix = numpy.zeros((self.length, self.length))
 
         for variants, popu in zip(self.api.variant_list, self.api.popu_list):
             include_variants = [self.api.variant_name_list[idx] for idx, is_variant in enumerate(variants) if is_variant == 1]
@@ -38,10 +39,10 @@ class ConfusionMatrix:
             # Predicted Result
             x = self.api.ancestry_list.index(self.id3_tree.predict(include_variants).most_common_ancestry)
 
-            self.conf_matrix[y][x] += 1
+            self.conf_matrix[y,x] += 1
 
-        self.diagonal_sum = sum([self.conf_matrix[i][i] for i in range(self.length)])
-        self.total = sum([sum(self.conf_matrix[i]) for i in range(self.length)])
+        self.diagonal_sum = self.conf_matrix.diagonal().sum()
+        self.total = self.conf_matrix.sum()
 
     def get_accuracy(self):
         """
@@ -141,8 +142,8 @@ class ConfusionMatrix:
 
 
 if __name__ == "__main__":
-    api = LOCAL_API('./test_cases/case1/config.json', False)
+    l_api = LOCAL_API('./test_cases/case1/config.json', False)
     with open('case1.id3') as model_file:
         id3_model = pickle.load(model_file)
-    conf_matrix = ConfusionMatrix(id3_model, api)
+    conf_matrix = ConfusionMatrix(id3_model, l_api)
     print(conf_matrix)
