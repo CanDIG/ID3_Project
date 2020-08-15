@@ -25,7 +25,7 @@ def train():
 
     id3_tree = ID3(api)
     pickle.dump(id3_tree, args.model_file)
-    if 'diagram' in args:
+    if args.diagram:
         id3_tree.print_tree(args.diagram)
 
 
