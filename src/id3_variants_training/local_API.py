@@ -35,9 +35,6 @@ class LOCAL_API:
         self.indiv_list = []
         self.popu_list = []
 
-        self.test_popu_list = []
-        self.test_variant_list = []
-
         self.variant_name_list = []
         self.ancestry_dict = {}
         self.ancestry_list = []
@@ -45,11 +42,11 @@ class LOCAL_API:
         self.is_conf_matrix = conf_matrix
 
         # fetch variants from vcf and create a dictionary
-        variants = self.fetch_variants()
-        variant_dict = self.create_variant_dict(variants)
+        self.variants = self.fetch_variants()
+        self.variant_dict = self.create_variant_dict(self.variants)
 
         # updates variables
-        self.read_user_mappings(variant_dict)
+        self.read_user_mappings(self.variant_dict)
 
     def fetch_variants(self):
         """
@@ -149,13 +146,6 @@ class LOCAL_API:
                     self.variant_list.append(variant_dict[indiv_id])
 
         self.ancestry_list = list(set(self.ancestry_dict.values()))
-
-        # Updates variant and population lists if this API is used for the Confusion matrix
-        if self.is_conf_matrix:
-            self.test_variant_list = list(self.variant_list[1::2])
-            self.test_popu_list = list(self.popu_list[1::2])
-            self.variant_list = self.variant_list[::2]
-            self.popu_list = self.popu_list[::2]
 
 
     def find_ignore_rows(self, split_path):

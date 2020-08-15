@@ -119,7 +119,7 @@ class ID3:
         return False
 
     def print_tree(self, file_name):
-        DotExporter(self.root_node, nodenamefunc=ID3_Node.name_func).to_picture("%s.png" % file_name)
+        DotExporter(self.root_node, nodenamefunc=ID3_Node.name_func).to_picture(file_name)
 
     def find_variant_split(self, subset, split_path):
         """

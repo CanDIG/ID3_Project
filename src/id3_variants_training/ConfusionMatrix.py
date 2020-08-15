@@ -1,4 +1,5 @@
-
+import pickle
+from .local_API import LOCAL_API
 
 class ConfusionMatrix:
 
@@ -29,7 +30,7 @@ class ConfusionMatrix:
         self.length = len(self.api.ancestry_list)
         self.conf_matrix = [[0] * self.length for _ in range(self.length)]
 
-        for variants, popu in zip(self.api.test_variant_list, self.api.test_popu_list):
+        for variants, popu in zip(self.api.variant_list, self.api.popu_list):
             include_variants = [self.api.variant_name_list[idx] for idx, is_variant in enumerate(variants) if is_variant == 1]
 
             # Actual Result
@@ -137,3 +138,11 @@ class ConfusionMatrix:
 
     def __str__(self):
         return '\n'.join([str(self.conf_matrix[i]) for i in range(len(self.conf_matrix))])
+
+
+if __name__ == "__main__":
+    api = LOCAL_API('./test_cases/case1/config.json', False)
+    with open('case1.id3') as model_file:
+        id3_model = pickle.load(model_file)
+    conf_matrix = ConfusionMatrix(id3_model, api)
+    print(conf_matrix)
