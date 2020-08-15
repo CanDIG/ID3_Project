@@ -5,13 +5,13 @@ import argparse
 import pickle
 
 
-def train(use_local, config_path, model, diagram):
+def train(use_local, config_path, model, diagram, verbose=True):
     if use_local:
         api = LOCAL_API(config_path, False)
     else:
         api = GA4GH_API(config_path)
 
-    id3_tree = ID3(api)
+    id3_tree = ID3(api, verbose)
     pickle.dump(id3_tree, model)
     if diagram:
         id3_tree.print_tree(diagram)

@@ -5,7 +5,7 @@ from .ID3_Node import ID3_Node
 
 class ID3:
 
-    def __init__(self, api):
+    def __init__(self, api, verbose=True):
         """
         Initializes the ID3 class
 
@@ -23,7 +23,9 @@ class ID3:
         subset = self.api.get_target_set()
         self.root_node = ID3_Node('root', subset, True)
         self.ID3(self.root_node)
-        print("")
+        self.verbose = verbose
+        if verbose:
+            print("")
 
 
     @staticmethod
@@ -191,7 +193,8 @@ class ID3:
 
         """
         # find the attrivute to split on and adds that variant to exclude variant list
-        print('.', end='')
+        if self.verbose:
+            print('.', end='', flush=True)
         subset = node.subset
         split_index = self.find_variant_split(subset, node.split_path)
         if split_index is None:
