@@ -61,7 +61,6 @@ class LOCAL_API:
         variant_list = []
         for var_range in self.config['variant_ranges']:
             vcf_path = self.config['chr_paths'][str(var_range['chr'])]
-            print(vcf_path)
             vcf_reader = vcf.Reader(open(str(vcf_path), 'rb'))
             variants = vcf_reader.fetch(int(var_range['chr']), int(var_range['start']), int(var_range['end']))
             variant_list.extend([variant for variant in variants])
