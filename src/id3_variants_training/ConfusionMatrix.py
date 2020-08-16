@@ -29,7 +29,7 @@ class ConfusionMatrix:
 
         # create conf_matrix and calculate useful attributes
         self.length = len(self.api.ancestry_list)
-        self.conf_matrix = numpy.zeros((self.length, self.length))
+        self.conf_matrix = numpy.zeros((self.length, self.length), dtype=numpy.int)
 
         for variants, popu in zip(self.api.variant_list, self.api.popu_list):
             include_variants = [self.api.variant_name_list[idx] for idx, is_variant in enumerate(variants) if is_variant == 1]

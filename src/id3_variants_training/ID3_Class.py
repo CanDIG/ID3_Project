@@ -22,8 +22,8 @@ class ID3:
         self.api = api
         subset = self.api.get_target_set()
         self.root_node = ID3_Node('root', subset, True)
-        self.ID3(self.root_node)
         self.verbose = verbose
+        self.ID3(self.root_node, self.verbose)
         if verbose:
             print("")
 
@@ -173,7 +173,7 @@ class ID3:
         return ret_index
 
     # note: variant list must be same length as count list
-    def ID3(self, node):
+    def ID3(self, node, verbose=True):
         """
         A recursive function that creates a tree given the root node and a subset
 
@@ -193,6 +193,7 @@ class ID3:
 
         """
         # find the attrivute to split on and adds that variant to exclude variant list
+        self.verbose = verbose
         if self.verbose:
             print('.', end='', flush=True)
         subset = node.subset
@@ -208,6 +209,6 @@ class ID3:
 
 
             if sum(w_subset.values()) > 0:
-                self.ID3(ID3_Node(var_name, dict(w_subset), with_variant=True, split_path=w_split_path, parent=node))
+                self.ID3(ID3_Node(var_name, dict(w_subset), with_variant=True, split_path=w_split_path, parent=node), self.verbose)
             if sum(wo_subset.values()) > 0:
-                self.ID3(ID3_Node(var_name, dict(wo_subset), with_variant=False, split_path=wo_split_path, parent=node))
+                self.ID3(ID3_Node(var_name, dict(wo_subset), with_variant=False, split_path=wo_split_path, parent=node), self.verbose)
