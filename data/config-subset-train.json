@@ -1,0 +1,113 @@
+{
+  "variant_ranges": [
+    {
+      "start": "101709562",
+      "end": "101709564",
+      "chr": "1"
+    },
+    {
+      "start": "159174682",
+      "end": "159174684",
+      "chr": "1"
+    },
+    {
+      "start": "109513600",
+      "end": "109513602",
+      "chr": "2"
+    },
+    {
+      "start": "121459588",
+      "end": "121459590",
+      "chr": "3"
+    },
+    {
+      "start": "100244318",
+      "end": "100244320",
+      "chr": "4"
+    },
+    {
+      "start": "33951692",
+      "end": "33951694",
+      "chr": "5"
+    },
+    {
+      "start": "136482726",
+      "end": "136482728",
+      "chr": "6"
+    },
+    {
+      "start": "122124301",
+      "end": "122124303",
+      "chr": "8"
+    },
+    {
+      "start": "145639680",
+      "end": "145639682",
+      "chr": "8"
+    },
+    {
+      "start": "94921064",
+      "end": "94921066",
+      "chr": "10"
+    },
+    {
+      "start": "111827166",
+      "end": "111827168",
+      "chr": "13"
+    },
+    {
+      "start": "99375320",
+      "end": "99375322",
+      "chr": "14"
+    },
+    {
+      "start": "28197036",
+      "end": "28197038",
+      "chr": "15"
+    },
+    {
+      "start": "28365617",
+      "end": "28365619",
+      "chr": "15"
+    },
+    {
+      "start": "36220034",
+      "end": "36220036",
+      "chr": "15"
+    },
+    {
+      "start": "48726131",
+      "end": "48726133",
+      "chr": "17"
+    },
+    {
+      "start": "35277621",
+      "end": "35277623",
+      "chr": "18"
+    }
+  ],
+  "ga4gh_server_url": "http://localhost:3000/",
+  "ga4gh_server_dataset_id": "WyIxMDAwZ2Vub21lcyJd",
+  "user_mapping_path": "data/superancestries.ped",
+  "chr_paths": {
+    "1": "data/train/chr1.vcf.gz",
+    "2": "data/train/chr2.vcf.gz",
+    "3": "data/train/chr3.vcf.gz",
+    "4": "data/train/chr4.vcf.gz",
+    "5": "data/train/chr5.vcf.gz",
+    "6": "data/train/chr6.vcf.gz",
+    "8": "data/train/chr8.vcf.gz",
+    "9": "data/train/chr9.vcf.gz",
+    "10": "data/train/chr10.vcf.gz",
+    "11": "data/train/chr11.vcf.gz",
+    "12": "data/train/chr12.vcf.gz",
+    "13": "data/train/chr13.vcf.gz",
+    "14": "data/train/chr14.vcf.gz",
+    "15": "data/train/chr15.vcf.gz",
+    "16": "data/train/chr16.vcf.gz",
+    "17": "data/train/chr17.vcf.gz",
+    "18": "data/train/chr18.vcf.gz",
+    "19": "data/train/chr19.vcf.gz",
+    "20": "data/train/chr20.vcf.gz"
+  }
+}
