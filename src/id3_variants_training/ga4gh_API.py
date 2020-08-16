@@ -163,7 +163,7 @@ class GA4GH_API:
                         "ethnicity"
                     ]
                 } ]
-        req_body['page_size'] = 10000
+        req_body['page_size'] = 10000000
         return req_body          
 
     def get_target_set(self):
