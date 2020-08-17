@@ -5,7 +5,7 @@ from .ga4gh_API import GA4GH_API
 from .ID3_Class import ID3
 
 
-def train(use_local, config_path, verbose=True):
+def get_id3_tree(use_local, config_path, verbose=True):
     if use_local:
         api = LOCAL_API(config_path, False)
     else:
@@ -13,7 +13,8 @@ def train(use_local, config_path, verbose=True):
 
     return ID3(api, verbose)
 
-if __name__ == '__main__':
+
+def train():
     parser = argparse.ArgumentParser()
     parser.add_argument('config_file', help='path to the config file that contains variant ranges in JSON format', default='config.json')
     parser.add_argument('model_file', help='path to output ID3 file', type=argparse.FileType('wb'))
@@ -25,9 +26,8 @@ if __name__ == '__main__':
     use_local_vcf_files = not args.use_candig_apis
     config_file_path = args.config_file
 
-    id3_tree = train(use_local_vcf_files, config_file_path)
+    id3_tree = get_id3_tree(use_local_vcf_files, config_file_path)
 
     pickle.dump(id3_tree, args.model_file)
     if args.diagram:
         id3_tree.print_tree(args.diagram)
-
