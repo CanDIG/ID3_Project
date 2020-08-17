@@ -74,15 +74,19 @@ class ID3:
         node = self.root_node
         # finds leaf node 
         while node.children:
+            lastnode = node
             for child_node in node.children:
                 # walk in in the path with the variant
-                if child_node.variant_name in include_variants and child_node.with_variant:
+                if (child_node.variant_name in include_variants) and (child_node.with_variant):
                     node = child_node
                     break
                 # walk in the path without the variant
-                elif not child_node.variant_name in include_variants and not child_node.with_variant:
+                elif (child_node.variant_name not in include_variants) and (not child_node.with_variant):
                     node = child_node
                     break
+
+            if node == lastnode:
+                return node
 
         return node
 
@@ -237,7 +241,6 @@ class ID3:
             var_name = self.api.variant_name_list[split_index]
 
             w_subset, wo_subset = self.api.split_subset(node, var_name)
-
             w_split_path, wo_split_path = self.api.create_split_path(node.split_path, var_name)
 
 
