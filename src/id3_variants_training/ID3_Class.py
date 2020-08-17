@@ -122,6 +122,40 @@ class ID3:
     def print_tree(self, file_name):
         DotExporter(self.root_node, nodenamefunc=ID3_Node.name_func).to_picture(file_name)
 
+    @staticmethod
+    def calc_other_split_variant_counts(w_var_counts, subset):
+        """
+        Given a subset that has been split, and counts on one side of the split,
+        calculate counts on the other side.
+
+        In the normal case, this is trivial; but if the counts include differentially
+        private noise, w_var_counts[ancestry1] could exceed subset[ancestry1].
+
+        This routine prevents that by capping the counts counts in the (mutable)
+        dictionary w_var_counts, then doing the subtraction.
+
+        Args:
+            w_var_counts (dict): A dictionary containing keys of ancestries and counts on one side of the split
+            subset (dict): A dictionary containing keys of ancestries and counts in the parent
+
+        Returns:
+            w_var_counts(dict): A possibly updated w_var_counts, after capping
+            wo_var_counts(dict): Dictionary on other side of the count
+        """
+        new_w_var_counts = {}
+        wo_var_counts = {}
+        for key, value in w_var_counts.items():
+            subset_value = subset.get(key, 0)
+            if value > subset_value:
+                value = subset_value
+            if value < 0:
+                value = 0
+            new_w_var_counts[key] = value
+            wo_var_counts[key] = subset_value - value
+
+        return new_w_var_counts, wo_var_counts
+
+
     def find_variant_split(self, subset, split_path):
         """
         Finds the variant to split on and returns the index where it should be split on.
@@ -152,8 +186,7 @@ class ID3:
 
         # loops through all the counts for each variant
         for idx, w_var_counts in enumerate(variant_list):
-            wo_var_counts = { k : subset.get(k, 0) - w_var_counts.get(k, 0) for k in list(subset.keys()) + list(w_var_counts.keys() )}
-            assert sum(w_var_counts.values()) + sum(wo_var_counts.values()) == total_count
+            w_var_counts, wo_var_counts = self.calc_other_split_variant_counts(w_var_counts, subset)
             w_fraction = sum(w_var_counts.values()) / total_count
             wo_fraction = sum(wo_var_counts.values()) / total_count
             if w_fraction == 0. or wo_fraction == 0.:
