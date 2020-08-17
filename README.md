@@ -1,6 +1,8 @@
-# ID3 Decision Tree Classifier with ga4gh_server
+# ID3 Decision Tree Classifier with candig_server
 
-An ID3 Decision Tree Classifier that is used to interract with the ga4gh_server (https://github.com/CanDIG/ga4gh-server). The classifier is implemented in such a way so that it allows differential privacy to protect personal health information (PHI).
+[![Build Status](https://travis-ci.com/CanDIG/id3-variants-training.svg?branch=master)](https://travis-ci.com/CanDIG/id3-variants-training)
+
+An ID3 Decision Tree Classifier that is used to interract with the candig_server (https://github.com/CanDIG/candig-server). The classifier is implemented in such a way so that it allows differential privacy to protect personal health information (PHI).
 
 There is also a ConfusionMatrix class that extends the ID3 class which is used to determine the accuracy of the decision tree.
 
@@ -17,7 +19,7 @@ What things you need to install the software and how to install them:
 python2/pip (https://www.python.org/downloads/)
 virtualenv (https://virtualenv.pypa.io/en/stable/installation/)
 git (https://git-scm.com/)
-ga4gh-server (https://github.com/CanDIG/ga4gh-server)
+candig-server (https://github.com/CanDIG/candig-server)
 ```
 
 ### Installing ID3
@@ -63,15 +65,15 @@ End with an example of getting some data out of the system or using it for a lit
 
 ```
 `variant_ranges` : The ranges of variants you want to inspect in the ID3 classifier. A variant range can contain more than one variant.
-`ga4gh_server_url` : The url that points to the ga4gh_server
-`ga4gh_server_dataset_id` : The id of the dataset you want to query from. It is associated with the ga4gh_server
+`candig_server_url` : The url that points to the candig_server
+`candig_server_dataset_id` : The id of the dataset you want to query from. It is associated with the candig_server
 `user_mapping_path` : Path to the `.ped` file that maps individual ids to ancestries
 `chr_paths` : Path to the `.vcf` chromosome files from the 1000 genomes project
 ```
 
-### Installing and starting ga4gh_server
+### Installing and starting candig_server
 
-Additionally, you can host the ga4gh_server locally if you want to test the capabilities
+Additionally, you can host the candig_server locally if you want to test the capabilities
 
 ```
 # install OS packages
@@ -84,31 +86,31 @@ export LIBRARY_SEARCH_PATHS=$LIBRARY_SEARCH_PATHS:/usr/local/opt/openssl/lib/
 sudo dnf install python-devel python-virtualenv zlib-devel libxslt-devel openssl-devel
 
 # setup env
-cd ga4gh_server
+cd candig_server
 virtualenv test_server
 cd test_server
 source bin/activate
 
 # install packages
-pip install -U git+https://github.com/CanDIG/candig-schemas.git@develop#egg=ga4gh_schemas
-pip install -U git+https://github.com/CanDIG/candig-client.git@authz#egg=ga4gh_client
+pip install -U git+https://github.com/CanDIG/candig-schemas.git@develop#egg=candig_schemas
+pip install -U git+https://github.com/CanDIG/candig-client.git@authz#egg=candig_client
 pip install -U git+https://github.com/CanDIG/candig-server.git@master#egg=candig_server
 pip install -U git+https://github.com/CanDIG/candig-ingest@master#egg=candig_ingest
 pip install -U git+https://github.com/CanDIG/PROFYLE_ingest.git@develop#egg=PROFYLE_ingest
 
 # setup initial peers
-mkdir -p ga4gh/server/templates
-touch ga4gh/server/templates/initial_peers.txt
+mkdir -p candig/server/templates
+touch candig/server/templates/initial_peers.txt
 
 # ingest data and make the repo
-mkdir ga4gh-example-data
-cd ga4gh-example-data
+mkdir candig-example-data
+cd candig-example-data
 
 # init db
-ga4gh_repo init registry.db
+candig_repo init registry.db
 
 # create dataset
-ga4gh_repo add-dataset registry.db 1kgenome \
+candig_repo add-dataset registry.db 1kgenome \
     --description "Variants from the 1000 Genomes project and GENCODE genes annotations"
 
 # ingest patient metadata
@@ -117,9 +119,9 @@ PROFYLE_ingest registry.db 1kgenome ../../1kgenome_metadata.json
 # add reference set
 cd ../..
 wget ftp://ftp.1000genomes.ebi.ac.uk//vol1/ftp/technical/reference/phase2_reference_assembly_sequence/hs37d5.fa.gz
-cd test_server/ga4gh-example-data
+cd test_server/candig-example-data
 
-ga4gh_repo add-referenceset registry.db ../../hs37d5.fa.gz \
+candig_repo add-referenceset registry.db ../../hs37d5.fa.gz \
   -d "NCBI37 assembly of the human genome" --name GRCh37-lite \
   --sourceUri "ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/phase2_reference_assembly_sequence/hs37d5.fa.gz"
 
@@ -128,7 +130,7 @@ bash ../../1kgenome_ingest.sh
 
 # launch server
 cd ..
-ga4gh_server --host 127.0.0.1 --port 8000 -c NoAuth
+candig_server --host 127.0.0.1 --port 8000 -c NoAuth
 
 ```
 
@@ -137,7 +139,7 @@ ga4gh_server --host 127.0.0.1 --port 8000 -c NoAuth
 
 ### ID3 Classifier Example (with 1000 genomes vcf files)
 
-Below is an exanple that uses the 1000 genomes vcf files. If you want to connect to the ga4gh_server, simply change the `local` flag to `False`
+Below is an exanple that uses the 1000 genomes vcf files. If you want to connect to the candig_server, simply change the `local` flag to `False`
 
 This example can be found in main.py
 
