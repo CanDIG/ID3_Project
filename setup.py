@@ -3,11 +3,13 @@ import setuptools
 with open('README.md', 'r') as file:
     long_description = file.read()
 
-with open('requirements.txt', 'r') as file:
-    install_requires = file.readlines()
-
-    for i in range(len(install_requires)):
-        install_requires[i] = install_requires[i].strip()
+install_requires = ["anytree", "atomicwrites", "attrs",
+                    "Click", "funcsigs", "more-itertools",
+                    "numpy", "pathlib2", "ped-parser",
+                    "pluggy", "pysam",
+                    "pytest", "PyVCF", "requests",
+                    "scandir", "scipy", "six",
+                    "aiohttp"]
 
 setuptools.setup(
     name='id3-variants-training',
