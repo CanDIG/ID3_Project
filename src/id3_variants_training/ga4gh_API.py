@@ -70,7 +70,7 @@ class GA4GH_API:
         variant_list = []
         for var_range in self.config['variant_ranges']:
             variant_list.extend(self.query_variants(str(var_range['chr']), str(var_range['start']), str(var_range['end'])))
-        return list(set(variant_list))    # deduplicate list
+        return variant_list
 
     def query_variants(self, chrom, start, end):
         """
@@ -86,18 +86,27 @@ class GA4GH_API:
         Returns: 
             variant_name_list (list): list of variant names formatted in the for of `CHR:POS`
         """
-        variant_list = []
         req_body = {
             'datasetId' : self.dataset_id,
-            'start': start,
-            'end': end,
-            'referenceName': chrom
+            'logic': {'id': 'A'},
+            'components': [{'id': 'A', 'patients': {}}],
+            'results': [{
+                'start': start,
+                'end': end,
+                'referenceName': chrom,
+                'table': 'variants',
+                'fields': [
+                    'start',
+                    'end'
+                ]
+            }]
         }
-        r = requests.post('%s%s' %  (self.host_url, 'variants/search'), json=req_body).json()
+        r = requests.post('%s%s' %  (self.host_url, 'search'), json=req_body).json()
         if 'results' in r:
-            for variant in r['results']['variants']:
-                variant_list.append(':'.join([chrom, variant['start'], variant['end']]))
-        return variant_list
+            # use set reduction to deduplicate results
+            variant_set = {':'.join([chrom, variant['start'], variant['end']]) 
+                           for variant in  r['results']['variants'] }
+        return list(variant_set)
 
 
     def craft_api_request(self, split_path=([], [])):
