@@ -12,6 +12,7 @@ There is also a ConfusionMatrix class which is used to determine the accuracy of
 
 - *nix environment
 - Python 3.7+
+- [Graphviz](https://graphviz.org/download/)
 
 ### Setup and installation
 
