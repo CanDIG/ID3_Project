@@ -70,7 +70,7 @@ class GA4GH_API:
         variant_list = []
         for var_range in self.config['variant_ranges']:
             variant_list.extend(self.query_variants(str(var_range['chr']), str(var_range['start']), str(var_range['end'])))
-        return list(set(variant_list))    # deduplicate list
+        return variant_list
 
     def query_variants(self, chrom, start, end):
         """
@@ -103,6 +103,7 @@ class GA4GH_API:
         }
         r = requests.post('%s%s' %  (self.host_url, 'search'), json=req_body).json()
         if 'results' in r:
+            # use set reduction to deduplicate results
             variant_set = {':'.join([chrom, variant['start'], variant['end']]) 
                            for variant in  r['results']['variants'] }
         return list(variant_set)
