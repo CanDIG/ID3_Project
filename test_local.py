@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import numpy
 import pytest
-from src.id3_variants_training.__train__ import train
-from src.id3_variants_training.__predict__ import predict
+from id3_variants_training.__train__ import train
+from id3_variants_training.__predict__ import predict
 
 @pytest.fixture
 def model_case1_train():

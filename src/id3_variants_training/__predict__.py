@@ -4,11 +4,13 @@ import numpy
 from .ConfusionMatrix import ConfusionMatrix
 from .local_API import LOCAL_API
 
+
 def predict(config_path, id3_tree):
     api = LOCAL_API(config_path, False)
     return ConfusionMatrix(id3_tree, api)
 
-if __name__ == '__main__':
+
+def predict_main():
     parser = argparse.ArgumentParser()
     parser.add_argument('config_path', help='path to the config file that contains vcf file paths', default='config.json')
     parser.add_argument('model_file', help='path to output ID3 file', type=argparse.FileType('rb'))

@@ -13,7 +13,8 @@ def train(use_local, config_path, verbose=True):
 
     return ID3(api, verbose)
 
-if __name__ == '__main__':
+
+def train_main():
     parser = argparse.ArgumentParser()
     parser.add_argument('config_file', help='path to the config file that contains variant ranges in JSON format', default='config.json')
     parser.add_argument('model_file', help='path to output ID3 file', type=argparse.FileType('wb'))
@@ -30,4 +31,3 @@ if __name__ == '__main__':
     pickle.dump(id3_tree, args.model_file)
     if args.diagram:
         id3_tree.print_tree(args.diagram)
-
