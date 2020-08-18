@@ -33,7 +33,6 @@ class GA4GH_API:
         self.host_url = self.config['ga4gh_server_url']
         self.dataset_id = self.config['ga4gh_server_dataset_id']
         self.variant_name_list = self.fetch_variants()
-        print(self.variant_name_list)
         self.ancestry_list = []
 
         # updates variables
