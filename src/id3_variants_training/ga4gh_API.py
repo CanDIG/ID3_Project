@@ -33,6 +33,7 @@ class GA4GH_API:
         self.host_url = self.config['ga4gh_server_url']
         self.dataset_id = self.config['ga4gh_server_dataset_id']
         self.variant_name_list = self.fetch_variants()
+        print(self.variant_name_list)
         self.ancestry_list = []
 
         # updates variables
@@ -86,18 +87,26 @@ class GA4GH_API:
         Returns: 
             variant_name_list (list): list of variant names formatted in the for of `CHR:POS`
         """
-        variant_list = []
         req_body = {
             'datasetId' : self.dataset_id,
-            'start': start,
-            'end': end,
-            'referenceName': chrom
+            'logic': {'id': 'A'},
+            'components': [{'id': 'A', 'patients': {}}],
+            'results': [{
+                'start': start,
+                'end': end,
+                'referenceName': chrom,
+                'table': 'variants',
+                'fields': [
+                    'start',
+                    'end'
+                ]
+            }]
         }
-        r = requests.post('%s%s' %  (self.host_url, 'variants/search'), json=req_body).json()
+        r = requests.post('%s%s' %  (self.host_url, 'search'), json=req_body).json()
         if 'results' in r:
-            for variant in r['results']['variants']:
-                variant_list.append(':'.join([chrom, variant['start'], variant['end']]))
-        return variant_list
+            variant_set = {':'.join([chrom, variant['start'], variant['end']]) 
+                           for variant in  r['results']['variants'] }
+        return list(variant_set)
 
 
     def craft_api_request(self, split_path=([], [])):
