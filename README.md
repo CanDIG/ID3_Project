@@ -13,18 +13,17 @@ There is also a ConfusionMatrix class which is used to determine the accuracy of
 - *nix environment
 - Python 3.7+
 
-### Building
+### Setup and installation
 
-Clone the repository locally and go to the root level of the repository. Run the following command:
+Clone the repository locally and go to the root level of the repository. Create a virtual environment and activate it:
 ```
-python3 setup.py sdist bdist_wheel
+python3 -m venv venv
+. venv/bin/activate
 ```
 
-### Installing
-
-Run the following command:
+Install the program:
 ```
-pip install dist/id3_variants_training-0.0.0-py3-none-any.whl
+pip install .
 ```
 
 ### Usage
