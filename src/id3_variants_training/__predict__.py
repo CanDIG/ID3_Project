@@ -13,7 +13,7 @@ def predict(config_path, id3_tree):
 def predict_main():
     parser = argparse.ArgumentParser()
     parser.add_argument('config_path', help='path to the config file that contains vcf file paths', default='config.json')
-    parser.add_argument('model_file', help='path to output ID3 file', type=argparse.FileType('rb'))
+    parser.add_argument('model_file', help='path to input ID3 file', type=argparse.FileType('rb'))
     args = parser.parse_args()
 
     id3_model = pickle.load(args.model_file)
