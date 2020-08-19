@@ -50,7 +50,7 @@ usage: predict-id3 [-h] config_path model_file
 
 positional arguments:
   config_path  path to the config file that contains vcf file paths
-  model_file   path to output ID3 file
+  model_file   path to input ID3 file
 
 optional arguments:
   -h, --help   show this help message and exit
