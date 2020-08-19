@@ -10,10 +10,10 @@ class ID3:
         Initializes the ID3 class
 
         Args:
-            api (LOCAL_API | GA4GH_API): API object that is used to interact with the virtual API
+            api (LOCAL_API | CanDIG_API): API object that is used to interact with the virtual API
 
         Attributes:
-            api (LOCAL_API | GA4GH_API): API object that is used to interact with the virtual API
+            api (LOCAL_API | CanDIG_API): API object that is used to interact with the virtual API
             root_node (Node): Creates the root node of the tree to be added upon
 
         TODO:

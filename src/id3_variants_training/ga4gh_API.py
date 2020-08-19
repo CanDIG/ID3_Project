@@ -3,10 +3,10 @@ import json
 import requests
 import aiohttp
 
-class GA4GH_API:
+class CanDIG_API:
     def __init__(self, file_path):
         """
-        Initializes the GA4GH_API class
+        Initializes the CanDIG_API class
 
         NOTE:
             api_variant_list, api_indiv_list, and api_popu_list should be of the same
@@ -17,8 +17,8 @@ class GA4GH_API:
 
         Attributes:
             config (json): loaded config file
-            host_url (str): url pointing to ga4gh_server
-            dataset_id (str): dataset id of the ga4gh_server that is to b accessed
+            host_url (str): url pointing to candig_server
+            dataset_id (str): dataset id of the candig_server that is to b accessed
             variant_name_list (list): Names of the variants in the format of
                                           "VARIANT_POS,VARIANT_REF,VARIANT_ALT"
                                           "CHROMOSOME_#:START_POS:END_POS" (TODO - UPDATE TO THIS)
@@ -30,8 +30,8 @@ class GA4GH_API:
         """
         with open(file_path) as f:
             self.config = json.load(f)
-        self.host_url = self.config['ga4gh_server_url']
-        self.dataset_id = self.config['ga4gh_server_dataset_id']
+        self.host_url = self.config['candig_server_url']
+        self.dataset_id = self.config['candig_server_dataset_id']
         self.variant_name_list = self.fetch_variants()
         self.ancestry_list = []
 
@@ -111,7 +111,7 @@ class GA4GH_API:
 
     def craft_api_request(self, split_path=([], [])):
         """
-        Crafts an GA4GH_API body to be sent to the ga4gh server which is intended to filter
+        Crafts an CanDIG_API body to be sent to the candig server which is intended to filter
         the counts of the variants based on the inclusion or exclusion of particular
         variants
 
@@ -208,7 +208,7 @@ class GA4GH_API:
             wo_variant_dict (dict): The split subset that does not include the variant
 
         """
-        w_variant_split_path, wo_variant_split_path = GA4GH_API.create_split_path(node.split_path, split_var)
+        w_variant_split_path, wo_variant_split_path = CanDIG_API.create_split_path(node.split_path, split_var)
 
         async with aiohttp.ClientSession() as session:
             tasks = [

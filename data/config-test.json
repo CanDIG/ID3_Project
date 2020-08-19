@@ -54,8 +54,8 @@
         { "start": "4077095",  "end": "4077097", "chr": "19" },
         { "start": "62159503",  "end": "62159505", "chr": "20" }
     ],
-   "ga4gh_server_url": "http://localhost:3000/",
-   "ga4gh_server_dataset_id": "WyIxMDAwZ2Vub21lcyJd",
+   "candig_server_url": "http://localhost:3000/",
+   "candig_server_dataset_id": "WyIxMDAwZ2Vub21lcyJd",
    "user_mapping_path": "data/superancestries.ped",
    "chr_paths": {
         "1": "data/test/chr1.vcf.gz",
