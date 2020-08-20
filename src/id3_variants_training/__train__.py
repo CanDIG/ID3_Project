@@ -1,7 +1,7 @@
 import argparse
 import pickle
 from .local_API import LOCAL_API
-from .ga4gh_API import GA4GH_API
+from .candig_API import CanDIG_API
 from .ID3_Class import ID3
 
 
@@ -9,7 +9,7 @@ def train(use_local, config_path, verbose=True):
     if use_local:
         api = LOCAL_API(config_path, False)
     else:
-        api = GA4GH_API(config_path)
+        api = CanDIG_API(config_path)
 
     return ID3(api, verbose)
 

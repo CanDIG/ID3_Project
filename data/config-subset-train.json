@@ -86,8 +86,8 @@
       "chr": "18"
     }
   ],
-  "ga4gh_server_url": "http://localhost:3000/",
-  "ga4gh_server_dataset_id": "WyIxMDAwZ2Vub21lcyJd",
+  "candig_server_url": "http://localhost:3000/",
+  "candig_server_dataset_id": "WyIxMDAwZ2Vub21lcyJd",
   "user_mapping_path": "data/superancestries.ped",
   "chr_paths": {
     "1": "data/train/chr1.vcf.gz",
