@@ -11,7 +11,7 @@ def dicts_from_ped(pedfile):
     patientlist = []
     pedreader = csv.DictReader(pedfile, delimiter='\t')
     for row in pedreader:
-        patid = row["Individual Id"]
+        patid = row["Individual ID"]
         ethnicity = row["Population"]
         patient = { "Patient": { "patientId": patid, "ethnicity": ethnicity },
                     "Sample": { "patientId": patid, "sampleId": f"SAMPLE_{patid}" } }
