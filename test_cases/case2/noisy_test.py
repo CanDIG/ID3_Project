@@ -41,7 +41,8 @@ def output_vcf(outfile, features, names):
     outfile.write('##fileformat=VCFv4.1\n')
     outfile.write('##FILTER=<ID=PASS,Description="All filters passed">\n')
     outfile.write('##fileDate=20200101\n')
-    outfile.write('#CHROM  POS     ID      REF     ALT     QUAL    FILTER  INFO    FORMAT   ' + '\t'.join(names) + '\n')
+    outfile.write('##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">\n')
+    outfile.write('#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\t' + '\t'.join(names) + '\n')
 
     chrom = 1
     rsid = '.'
