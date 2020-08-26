@@ -3,7 +3,7 @@
         { "start": "99",  "end": "112", "chr": "1" }
     ],
    "candig_server_url": "http://localhost:3000/",
-   "candig_server_dataset_id": "",
+   "candig_server_dataset_id": "WyJjYXNlMSJd",
    "user_mapping_path": "test_cases/case3/ancestries.ped",
    "chr_paths": {
         "1": "test_cases/case3/train/chr1.vcf.gz"
