@@ -134,11 +134,8 @@ class GA4GH_API:
                 { 'and': [] }
             ] 
         }
-        id_list = []
 
-        # Add to OR list
         for variant_id in self.variant_name_list:
-            id_list.append( { 'id': variant_id } )
             CHR, START, END = variant_id.split(':')
             components.append(
                 {
@@ -149,17 +146,18 @@ class GA4GH_API:
                         "referenceName": CHR,
                     }
                 })
-        logic['and'][0]['or'].extend(id_list)
 
         for variant, direction in zip(split_path[0], split_path[1]):
             if direction:
-                logic['and'][1]['and'].append({"id": variant})
+                logic['and'][0]['or'].append({"id": variant})
             else:
                 logic['and'][1]['and'].append({"id": variant, "negate": True})
 
         # Finds index with empty list and removes it
         if logic['and'][1]['and'] == []:
             del logic['and'][1]
+        if logic['and'][0]['or'] == []:
+            del logic['and'][0]
 
         # puts the request together into a form digestable by the API
         req_body = {}
@@ -173,7 +171,7 @@ class GA4GH_API:
                     ]
                 } ]
         req_body['page_size'] = 10000000
-        return req_body          
+        return req_body
 
     def get_target_set(self):
         """
@@ -182,11 +180,30 @@ class GA4GH_API:
         Returns:
             counts (dict): A dictionary containing keys of ancestries and values of the counts for the particular ancestry
         """
-        req =  self.craft_api_request()
-        ancestry_counts = requests.post('%s%s' %  (self.host_url, 'count'), json=req).json()['results']['patients'][0]['ethnicity']
+        req = {
+            'logic': {
+                'id': 'A'
+            },
+            'components': [
+                {
+                    'id': 'A',
+                    'patients': {}
+                }
+            ],
+            'dataset_id': self.dataset_id,
+            'results': [
+                {
+                    'table': 'patients',
+                    'fields': [
+                        'ethnicity'
+                    ]
+                }
+            ],
+            'page_size': 10000000
+        }
+        ancestry_counts = requests.post('%s%s' % (self.host_url, 'count'), json=req).json()['results']['patients'][0]['ethnicity']
         if self.ancestry_list == []:
             self.ancestry_list = list(ancestry_counts.keys())
-
         return ancestry_counts
 
     async def async_split_subset(self, node, split_var):
@@ -294,7 +311,9 @@ class GA4GH_API:
                     .
                 ]
         """
-        return asyncio.run(self.fetch_all_counts(split_path))
-
-
-
+        ancestry_counts = asyncio.run(self.fetch_all_counts(split_path))
+        for count in ancestry_counts:
+            for anc in self.ancestry_list:
+                if anc not in count.keys():
+                    count[anc] = 0
+        return ancestry_counts
