@@ -12,6 +12,6 @@ To set up candig server in travis, you're going to need to:
 
 Then start up candig-server:
 
-docker run -d -v config.py:/opt/candig_server/config.py -v registry.db:/opt/candig_server/registry.db --entrypoint candig_server c3genomics/candig_server --host 0.0.0.0 --port 3000 -f /opt/candig_server/config.py
+sudo docker run -d -v ${PWD}:/opt/candig_server -p 127.0.0.1:3000:3000 --entrypoint candig_server c3genomics/candig_server --host 0.0.0.0 --port 3000 -f /opt/candig_server/config.py
 
 and run the test as before but with --use-candig-apis and with the candig server URL pointed to localhost:3000
