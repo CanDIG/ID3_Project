@@ -5,6 +5,14 @@ python:
   - 3.8
   - 3.7
 
+services:
+  - docker
+
+before_install:
+  - docker pull c3genomics/candig_server
+  - docker run -d -v ${PWD}:/opt/candig_server -p 127.0.0.1:3000:3000 --entrypoint candig_server c3genomics/candig_server --host 0.0.0.0 --port 3000 -f /opt/candig_server/config.py
+  - docker ps -a
+
 # Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
   - pip install -U tox-travis
